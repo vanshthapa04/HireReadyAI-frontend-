@@ -28,7 +28,7 @@ export default function InterviewPractice() {
     if (!role) return;
     setLoading(true);
     try {
-      const { data } = await api.post("/interview/generate", { role, difficulty });
+      const { data } = await api.post("/ai/mock-interview", { role, difficulty });
       setQuestions(data.questions);
       setCurrentQ(0);
       setFeedbacks([]);
@@ -40,22 +40,7 @@ export default function InterviewPractice() {
   };
 
   const submitAnswer = async () => {
-    if (!answer.trim()) return;
-    setSubmitting(true);
-    try {
-      const { data } = await api.post("/interview/submit", {
-        questionId: `q_${currentQ}`,
-        answer,
-      });
-      setFeedbacks((prev) => [...prev, data]);
-      setAnswer("");
-      if (currentQ < questions.length - 1) {
-        setCurrentQ((prev) => prev + 1);
-      }
-    } catch {
-    } finally {
-      setSubmitting(false);
-    }
+    console.log("Answer submitted:", answer);
   };
 
   const completed = feedbacks.length > 0 && feedbacks.length === questions.length;
